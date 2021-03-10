@@ -1,0 +1,12 @@
+{
+  "name": "airdrop",
+  "version": "1.0.0",
+  "description": "crypto website",
+  "main": "index.js",
+  "author": "godofjs",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
