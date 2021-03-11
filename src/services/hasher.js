@@ -1,4 +1,4 @@
-const crypto  = require('crypto')
+const bcrypt = require("bcryptjs");
 
 /**
  * @description - This module is used to hash literally anything that might want to be hashed in a secure and irreversible way by building
@@ -19,10 +19,7 @@ const crypto  = require('crypto')
  */
 
 function encryptPassword(value, optionalSalt) {
-  /*
-   *The optional salt arguments is used when a user with an account wants to be authenticated
-   *It is gotten from the database
-   */
+  bcrypt.hashSync(value);
   let hashed = {
       salt: '',
       hash: ''

@@ -6,4 +6,8 @@ router.post('/register',
     Validations.checkEmailAndPassword,
     AuthenticationMiddlewares.checkIfUserAlreadyExists,
     Authentication.register);
+router.post('/login',
+    Validations.checkEmailAndPassword,
+    AuthenticationMiddlewares.loginCheck,
+    Authentication.login);
 module.exports = router;
