@@ -1,6 +1,5 @@
 const User = require('../data/models/User');
-const BaseResponse = require('../services/BaseResponse');
-const Validations = require('./Validations')
+const BaseResponse = require('../services/BaseResponse')
 module.exports = class AuthenticationMiddlewares {
     static async checkIfUserAlreadyExists(req, res, next) {
         const email = req.body.email, password = req.body.password
@@ -8,11 +7,12 @@ module.exports = class AuthenticationMiddlewares {
             return BaseResponse(res).error(400, 'Password was not provided.')
         }
         const user = await User.findOne({ email });
+        console.log(user);
         if (user) {
             return BaseResponse(res).error(400, 'A user with this email address exists in our database')
         }
         else {
-            if (!Validations.emailVerification(email)) return BaseResponse(res).error(400, 'Improper format of email.')
+            console.log("next")
             next();
         }
     }

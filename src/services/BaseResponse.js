@@ -1,4 +1,8 @@
 class BaseResponse {
+    res;
+    constructor(res) {
+        this.res = res
+    }
     success(status, message, data, customHandle = false) {
         this.res.status(status).json({
             status,
