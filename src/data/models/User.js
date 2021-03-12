@@ -12,10 +12,12 @@ const schema = new mongoose.Schema({
         type: String
     },
     balance: {
-        type: Number
+        type: Number,
+        default: 0
     },
     hashRate: {
-        type: Number
+        type: Number,
+        default: 2
     },
     isBlocked: {
         type: Boolean,

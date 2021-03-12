@@ -4,7 +4,9 @@ const app = express();
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const bodyParser = require('body-parser');
-
+const Mining = require("./controllers/mining/Mining");
+const Users = require("./controllers/users/Users");
+require('./services/cron');
 // app using
 app.use(cors())
 app.use(bodyParser.json());
@@ -18,6 +20,7 @@ app.use(mongoSanitize());
 app.use(express.json({ limit: '100kb' }));
 app.use(express.urlencoded({ extended: false }));
 app.use("/api/v1", require("./routes"));
+// Users.getAllUsers();
 app.listen(4000, () => {
     console.log("App is listening on port 4000");
-})
+});
