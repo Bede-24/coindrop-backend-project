@@ -15,4 +15,7 @@ module.exports = class Payment {
             return BaseResponse(res).success(200, 'Your payment would be verified shortly.')
         })
     }
+    static async withdraw(req, res) {
+        const {} = req;
+    }
 }
