@@ -11,12 +11,13 @@ class BaseResponse {
             customHandle
         })
     }
-    error(status, message, customHandle= false) {
+    error(status, message, customHandle= false, extraData) {
         this.res.status(status).json({
             error: true,
             status,
             message,
-            customHandle
+            customHandle,
+            extraData
         })
     }
 }

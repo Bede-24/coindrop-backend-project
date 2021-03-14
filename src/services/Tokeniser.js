@@ -9,7 +9,7 @@ module.exports = class Tokeniser {
         const token = jwt.sign(payload, JWT_SECRET, jwtOptions)
         return token;
     }
-    static verifyToken(token) {
+    static decodeToken(token) {
         const decoded = jwt.verify(token, JWT_SECRET);
         return decoded
     }

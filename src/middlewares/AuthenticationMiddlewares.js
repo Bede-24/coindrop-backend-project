@@ -1,6 +1,7 @@
 const User = require('../data/models/User');
 const BaseResponse = require('../services/BaseResponse')
 const bcrypt = require("bcryptjs");
+const Tokeniser = require('../services/Tokeniser')
 module.exports = class AuthenticationMiddlewares {
     static async checkIfUserAlreadyExists(req, res, next) {
         const email = req.body.email, password = req.body.password;
@@ -23,5 +24,14 @@ module.exports = class AuthenticationMiddlewares {
         else {
             next();
         }
+    }
+    static async checkJWT(req, res, next) {
+        if (!req.get("Authorization") || !req.get("Authorization").startsWith("Bearer ")) return BaseResponse(res).error(400, 'JWT was not provided.');
+        const token = req.get("Authorization").split(" ")[1];
+        const tokenObj = Tokeniser.decodeToken(token);
+        if (!tokenObj) return BaseResponse(res).error(400, 'Invalid JWT.', false, { login: true });
+        const user = await User.findOne({ _id: tokenObj._id })
+        if (!user) return BaseResponse(res).error(404, 'A user with this ID was not found.', true, { login: true });
+        next();
     }
 }
