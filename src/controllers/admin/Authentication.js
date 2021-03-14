@@ -11,11 +11,13 @@ module.exports = class Authentication {
         admin.save().catch(() => {
             return BaseResponse(res).error(400, 'Something went wrong. Please try again.')
         });
-        return BaseResponse(res).success(200, 'Admin created successfully')
+        const data = admin.toJSON();
+        delete data.password;
+        return BaseResponse(res).success(200, 'Admin created successfully', data);
     }
     static async adminLogin(req, res) {
         const { email, password } = req.body;
-        const admin = Admin.findOne({ email });
+        const admin = await Admin.findOne({ email });
         if (!admin) return BaseResponse(res).error(400, 'Admin does not exist.');
         const isPasswordCorrect = bcrypt.compareSync(password, admin.password);
         if (!isPasswordCorrect) return BaseResponse(res).error(400, 'Invalid password.')
@@ -23,8 +25,8 @@ module.exports = class Authentication {
         admin.save().catch(() => {
             return BaseResponse(res).error(400, 'Something went wrong. Please try again.')
         });
-        delete admin.password;
         const data = await admin.toJSON();
-        return BaseResponse(res).success(200, 'Admin created successfully', data)
+        delete data.password;
+        return BaseResponse(res).success(200, 'Admin logged in successfully', data)
     }
 }

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Tokeniser = require('../../services/Tokeniser');
 const schema = new mongoose.Schema({
     password: {
         type: String,
