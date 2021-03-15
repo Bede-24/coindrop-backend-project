@@ -5,7 +5,7 @@ const Validations = require('../middlewares/Validations');
 router.post('/user-claims-payment',
     AuthenticationMiddlewares.checkJWT,
     Payment.userClaimsPayment);
-router.post('/user-claims-payment',
+router.post('/make-withdrawal-request',
     AuthenticationMiddlewares.checkJWT,
     Validations.withdrawalRequests,
     Payment.makeWithdrawalRequest);

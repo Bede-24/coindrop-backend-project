@@ -33,4 +33,28 @@ POST /authentication/login
 }
 ```
 
+# Payments
+
+## get user payments
+
+GET /admin/get-user-payments/:status
+
+```
+    status = all | pending | completed | declined
+
+```
+
 # Admin Endpoints
+
+# Authentication
+
+## login
+
+POST /admin/login
+
+```
+{
+   email: superadmin@crypto.com,
+   password: 123456
+}
+```
