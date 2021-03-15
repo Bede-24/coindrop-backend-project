@@ -8,10 +8,11 @@ const schema = new mongoose.Schema({
         type: String,
         required: true
     },
-    cryptoPlatform: {
+    coin: {
         type: String,
         required: true
     },
+    // ['Pending', 'Approved', 'Declined']
     status: {
         type: String,
         default: 'Pending'

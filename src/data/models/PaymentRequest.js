@@ -8,7 +8,7 @@ const schema = new mongoose.Schema({
         type: Object,
         required: true
     },
-    cryptoPlatform: {
+    coin: {
         type: String,
         required: true
     },

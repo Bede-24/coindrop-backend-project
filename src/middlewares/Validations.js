@@ -14,10 +14,10 @@ module.exports = class Validations {
         next();
     }
     static withdrawalRequests(req, res, next) {
-        const {amount, cryptoAddress, cryptoPlatform, userId} = req;
+        const {amount, cryptoAddress, coin, userId} = req;
         if(typeof amount !== Number) return BaseResponse(res).error(400, 'Amount must be a number')
         if(!cryptoAddress) return BaseResponse(res).error(400, 'Crypto address required to complete this transaction.')
-        if(!cryptoPlatform) return BaseResponse(res).error(400, 'Crypto platform required to complete this transaction.')
+        if(!coin) return BaseResponse(res).error(400, 'Crypto platform required to complete this transaction.')
         if(!userId) return BaseResponse(res).error(400, 'User\'s Id is required to complete this transaction.')
         next();
     }
