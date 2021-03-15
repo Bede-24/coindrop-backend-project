@@ -1,15 +1,18 @@
 const mongoose = require('mongoose');
-const Tokeniser = require('../../services/Tokeniser');
 const schema = new mongoose.Schema({
-    upgradeType: {
-        type: String,
+    amount: {
+        type: Number,
         required: true
-    }, 
-    userId: {
-        type: String,
+    },
+    user: {
+        type: Object,
         required: true
     },
     cryptoPlatform: {
+        type: String,
+        required: true
+    },
+    cryptoAddress: {
         type: String,
         required: true
     },
@@ -18,4 +21,4 @@ const schema = new mongoose.Schema({
         default: 'Pending'
     }
 }, { timestamps: true })
-module.exports = mongoose.model('UserPayments', schema);
+module.exports = mongoose.model('PaymentsRequest', schema);

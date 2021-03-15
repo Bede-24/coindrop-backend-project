@@ -6,6 +6,7 @@ module.exports = class Mining {
         users.map(async (user) => {
             user.balance = user.balance + user.hashRate;
             await user.save();
+            console.log(user);
         })
     }
 }

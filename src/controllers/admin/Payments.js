@@ -1,4 +1,4 @@
-const UserPayments = require('../../data/models/UserPayments')
+const UserPayments = require('../../data/models/HashRateIncrease')
 const User = require('../../data/models/User')
 const BaseResponse = require('../../services/BaseResponse')
 module.exports = class Payments {

@@ -31,6 +31,14 @@ const schema = new mongoose.Schema({
     cryptoAddressPlatform: {
         type: String
     },
+    minimumWithdrawal: {
+        type: Number,
+        default: 0
+    },
+    maximumWithdrawal: {
+        type: Number,
+        default: 0
+    },
     cryptoAddress: {
         type: String
     },
