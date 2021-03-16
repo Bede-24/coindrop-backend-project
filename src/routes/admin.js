@@ -5,4 +5,7 @@ const AuthenticationMiddleware = require('../middlewares/AuthenticationMiddlewar
 router.post('/register', Authentication.createAdmin);
 router.post('/login', Authentication.adminLogin);
 router.get('/get-user-payments/:status', AuthenticationMiddleware.checkAdminJWT, Payments.getUserPayments);
+router.post('/increase-hash-rate', AuthenticationMiddleware.checkAdminJWT, Payments.increaseUserHashRate);
+router.post('/decline-hash-rate-increase', AuthenticationMiddleware.checkAdminJWT, Payments.declineHashRateRequest);
+router.post('/change-withdrawal-status/:status/:id', AuthenticationMiddleware.checkAdminJWT, Payments.changeWithdrawalRequestStatus);
 module.exports = router;
