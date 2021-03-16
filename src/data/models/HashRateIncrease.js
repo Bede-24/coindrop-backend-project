@@ -3,7 +3,7 @@ const schema = new mongoose.Schema({
     upgradeType: {
         type: String,
         required: true
-    }, 
+    },
     userId: {
         type: String,
         required: true
@@ -12,10 +12,13 @@ const schema = new mongoose.Schema({
         type: String,
         required: true
     },
-    // ['Pending', 'Approved', 'Declined']
+    // ['pending', 'confirmed', 'declined']
     status: {
         type: String,
-        default: 'Pending'
+        default: 'pending'
+    },
+    reason: {
+        type: String
     },
     user: {
         type: Object,

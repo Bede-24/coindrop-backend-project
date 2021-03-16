@@ -60,13 +60,20 @@ POST /admin/login
 
 ## get user payments
 
-GET /payment/get-user-payments/:status
+GET /payment/user-payments/:status
 
 ```
     status = all | pending | declined | approved
 
 ```
+## get withdrawal requests
 
+GET /payment/withdrawal-requests/:status
+
+```
+    status = all | pending | declined | completed
+
+```
 ## increase user's hashrate
 
 POST /payment/increase-hash-rate
@@ -86,7 +93,6 @@ POST /payment/decline-hash-rate-increase
         userId, 
         hashRequestId 
     }
-
 ```
 
 ## change withdrawal status of a request

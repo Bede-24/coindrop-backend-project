@@ -16,6 +16,11 @@ module.exports = class Payment {
             return BaseResponse(res).success(200, 'Your payment would be verified shortly.')
         })
     }
+    static async getClaimedPayments(req, res) {
+        const { id } = req.params;
+        const requests = await UserPayment.find({ userId: id });
+        return BaseResponse(res).success(200, 'Claimed payments fetched successfully.', requests, true);
+    }
     static async makeWithdrawalRequest(req, res) {
         const { amount, cryptoAddress, coin, userId } = req.body;
         const user = await User.findOne({ _id: userId });

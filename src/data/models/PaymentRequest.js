@@ -20,6 +20,10 @@ const schema = new mongoose.Schema({
         type: String,
         required: true
     },
+    reason: {
+        type: String,
+        required: false
+    },
     status: {
         type: String,
         default: 'Pending'
