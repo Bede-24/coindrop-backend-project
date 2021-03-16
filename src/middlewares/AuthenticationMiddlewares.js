@@ -44,4 +44,11 @@ module.exports = class AuthenticationMiddlewares {
         if (!user) return BaseResponse(res).error(404, 'A user with this ID was not found.', true, { login: true });
         next();
     }
+    static async checkIfIdMatchesJWTId(req, res, next) {
+        const { id } = req.params;
+        const token = req.get("Authorization").split(" ")[1];
+        const tokenObj = Tokeniser.decodeToken(token);
+        if (id !== tokenObj._id) return BaseResponse(res).error(401, 'You are not allowed to view this user\'s information.');
+        next();
+    }
 }

@@ -8,6 +8,10 @@ const schema = new mongoose.Schema({
         type: Object,
         required: true
     },
+    userId: {
+        type: String,
+        required: true
+    },
     coin: {
         type: String,
         required: true

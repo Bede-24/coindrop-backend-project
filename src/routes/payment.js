@@ -9,4 +9,8 @@ router.post('/make-withdrawal-request',
     AuthenticationMiddlewares.checkJWT,
     Validations.withdrawalRequests,
     Payment.makeWithdrawalRequest);
+router.get('/get-withdrawal-requests/:id',
+    AuthenticationMiddlewares.checkJWT,
+    AuthenticationMiddlewares.checkIfIdMatchesJWTId,
+    Payment.getWithdrawalRequests);
 module.exports = router;

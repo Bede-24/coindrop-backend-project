@@ -17,14 +17,20 @@ module.exports = class Payment {
         })
     }
     static async makeWithdrawalRequest(req, res) {
-        const { amount, cryptoAddress, coin, userId } = req;
-        const user = User.findOne({ _id: userId });
+        const { amount, cryptoAddress, coin, userId } = req.body;
+        const user = await User.findOne({ _id: userId });
         if (!user) return BaseResponse(res).error(400, 'User does not exist.', false, { login: true });
         if (user.balance < amount) return BaseResponse(res).error(400, 'Insufficient amount');
         if (user.minimumWithdrawal > amount) return BaseResponse(res).error(400, 'Cannot withdraw amount less than your minimum withdrawal');
-        if (user.maximumWithdrawal < amount) return BaseResponse(res).error(400, 'Cannot withdraw amount more than your minimum withdrawal');
-        const request = new PaymentRequest({ amount, cryptoAddress, coin, userId });
+        if (user.maximumWithdrawal < amount) return BaseResponse(res).error(400, 'Cannot withdraw amount more than your maximum withdrawal');
+        const request = new PaymentRequest({ amount, cryptoAddress, coin, userId, user });
         request.save();
+
         return BaseResponse(res).success(200, 'your withdrawal request has been saved and would be reviewed subsequently.')
+    }
+    static async getWithdrawalRequests(req, res) {
+        const { id } = req.params;
+        const requests = await PaymentRequest.find({ userId: id });
+        return BaseResponse(res).success(200, 'Withdrawal requests fetched successfully.', requests, true);
     }
 }
