@@ -18,7 +18,8 @@ const schema = new mongoose.Schema({
         default: 'pending'
     },
     reason: {
-        type: String
+        type: String,
+        default: ''
     },
     user: {
         type: Object,

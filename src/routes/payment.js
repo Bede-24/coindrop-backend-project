@@ -13,4 +13,15 @@ router.get('/get-withdrawal-requests/:id',
     AuthenticationMiddlewares.checkJWT,
     AuthenticationMiddlewares.checkIfIdMatchesJWTId,
     Payment.getWithdrawalRequests);
+    
+router.get('/get-withdrawal-request/:id',
+    AuthenticationMiddlewares.checkJWT,
+    Payment.getWithdrawalRequest);
+router.get('/claimed-payments/:id',
+    AuthenticationMiddlewares.checkJWT,
+    AuthenticationMiddlewares.checkIfIdMatchesJWTId,
+    Payment.getClaimedPayments);
+router.get('/claimed-payment/:id',
+    AuthenticationMiddlewares.checkJWT,
+    Payment.getClaimedPayment);
 module.exports = router;

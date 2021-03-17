@@ -50,6 +50,9 @@ const schema = new mongoose.Schema({
     refEmail: {
         type: String
     },
+    noOfRefferals: {
+        type: Number
+    },
     passwordResetExpiresAt: { type: String },
     verificationToken: { type: String },
     verificationTokenExpiresAt: { type: String, default: '' }
@@ -68,7 +71,6 @@ schema.methods.getUser = function () {
     delete user.passwordResetExpiresAt;
     delete user.passwordResetToken;
     return user;
-
 }
 schema.methods.generateJWT = function () {
     const user = this.toJSON();

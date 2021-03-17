@@ -10,7 +10,11 @@ module.exports = class Tokeniser {
         return token;
     }
     static decodeToken(token) {
-        const decoded = jwt.verify(token, JWT_SECRET);
-        return decoded
+        try {
+            const decoded = jwt.verify(token, JWT_SECRET);
+            return decoded
+        } catch (err) {
+            return false
+        }
     }
 }

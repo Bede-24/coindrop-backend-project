@@ -21,6 +21,12 @@ module.exports = class Payment {
         const requests = await UserPayment.find({ userId: id });
         return BaseResponse(res).success(200, 'Claimed payments fetched successfully.', requests, true);
     }
+    static async getClaimedPayment(req, res) {
+        const { id } = req.params;
+        const claimedPayment = await UserPayment.findOne({ _id: id });
+        if (!claimedPayment) return BaseResponse(res).error(404, 'Withdrawal request was not found');
+        return BaseResponse(res).success(200, 'Claimed payment fetched successfully.', claimedPayment, true);
+    }
     static async makeWithdrawalRequest(req, res) {
         const { amount, cryptoAddress, coin, userId } = req.body;
         const user = await User.findOne({ _id: userId });
@@ -37,5 +43,11 @@ module.exports = class Payment {
         const { id } = req.params;
         const requests = await PaymentRequest.find({ userId: id });
         return BaseResponse(res).success(200, 'Withdrawal requests fetched successfully.', requests, true);
+    }
+    static async getWithdrawalRequest(req, res) {
+        const { id } = req.params;
+        const requests = await PaymentRequest.find({ _id: id });
+        if (!request) return BaseResponse(res).error(404, 'Withdrawal request was not found');
+        return BaseResponse(res).success(200, 'Withdrawal request fetched successfully.', requests, true);
     }
 }

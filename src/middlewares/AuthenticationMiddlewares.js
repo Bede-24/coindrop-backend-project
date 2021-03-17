@@ -30,7 +30,7 @@ module.exports = class AuthenticationMiddlewares {
         if (!req.get("Authorization") || !req.get("Authorization").startsWith("Bearer ")) return BaseResponse(res).error(400, 'JWT was not provided.');
         const token = req.get("Authorization").split(" ")[1];
         const tokenObj = Tokeniser.decodeToken(token);
-        if (!tokenObj) return BaseResponse(res).error(400, 'Invalid JWT.', false, { login: true });
+        if (!tokenObj) return BaseResponse(res).error(400, 'Invalid JWT.', true, { login: true });
         const user = await User.findOne({ _id: tokenObj._id })
         if (!user) return BaseResponse(res).error(404, 'A user with this ID was not found.', true, { login: true });
         next();
