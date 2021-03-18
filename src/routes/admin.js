@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Authentication = require('../controllers/admin/Authentication');
 const Payments = require('../controllers/admin/Payments');
+const Users = require('../controllers/admin/Users');
 const AuthenticationMiddleware = require('../middlewares/AuthenticationMiddlewares');
 // auth
 router.post('/register', Authentication.createAdmin);
@@ -17,9 +18,14 @@ router.get('/user-payments/:status', AuthenticationMiddleware.checkAdminJWT, Pay
  * Get withdrawal requests of users.
  */
 router.get('/withdrawal-requests/:status', AuthenticationMiddleware.checkAdminJWT, Payments.getWithdrawalRequests);
-router.post('/increase-hash-rate', AuthenticationMiddleware.checkAdminJWT, Payments.increaseUserHashRate);
-router.post('/decline-hash-rate-increase', AuthenticationMiddleware.checkAdminJWT, Payments.declineHashRateRequest);
-router.post('/change-withdrawal-status/:status/:id', AuthenticationMiddleware.checkAdminJWT, Payments.changeWithdrawalRequestStatus);
+router.patch('/increase-hash-rate', AuthenticationMiddleware.checkAdminJWT, Payments.increaseUserHashRate);
+router.patch('/decline-hash-rate-increase', AuthenticationMiddleware.checkAdminJWT, Payments.declineHashRateRequest);
+router.patch('/change-withdrawal-status/:status/:id', AuthenticationMiddleware.checkAdminJWT, Payments.changeWithdrawalRequestStatus);
+
+router.patch('/change-user-blocked-status/isBlocked=:isBlocked/:id', AuthenticationMiddleware.checkAdminJWT, Users.changeIsBlockedStatus);
+router.get('/user/:id', AuthenticationMiddleware.checkAdminJWT, Users.getUserById);
+router.get('/users', AuthenticationMiddleware.checkAdminJWT, Users.getUsers);
+router.get('/users-according-to-blocked-status/isBlocked=:isBlocked', AuthenticationMiddleware.checkAdminJWT, Users.getUsersAccordingToBlockedStatus);
 
 
 module.exports = router;

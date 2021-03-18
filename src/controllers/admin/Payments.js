@@ -27,9 +27,9 @@ module.exports = class Payments {
         return BaseResponse(res).success(200, 'User\'s hash rate has been updated successfully.', data)
     }
     static async declineHashRateRequest(req, res) {
-        const { reason, userId, hashRequestId } = req.body;
+        const { reason, hashRequestId } = req.body;
         if (!reason) return BaseResponse(res).error(400, 'Reason for declining increase request was not provided.');
-        const request = await User.findOne({ _id: hashRequestId });
+        const request = await UserPayments.findOne({ _id: hashRequestId });
         if (!request) return BaseResponse(res).error(404, 'This request was not found');
         request.status = 'declined';
         request.reason = reason;

@@ -91,7 +91,7 @@ POST /admin/login
 
 ## get user payments
 
-GET /payment/user-payments/:status
+GET /admin/payment/user-payments/:status
 
 ```
     status = all | pending | declined | approved
@@ -100,7 +100,7 @@ GET /payment/user-payments/:status
 
 ## get withdrawal requests
 
-GET /payment/withdrawal-requests/:status
+GET /admin/payment/withdrawal-requests/:status
 
 ```
     status = all | pending | declined | completed
@@ -109,7 +109,7 @@ GET /payment/withdrawal-requests/:status
 
 ## increase user's hashrate
 
-POST /payment/increase-hash-rate
+PATCH /admin/payment/increase-hash-rate
 
 ```
     { newHashRate: Number, userId }
@@ -118,21 +118,46 @@ POST /payment/increase-hash-rate
 
 ## reject hash rate increase request
 
-POST /payment/decline-hash-rate-increase
+PATCH /admin/payment/decline-hash-rate-increase
 
 ```
     {
         reason: "We could not verify the funds you sent.",
-        userId,
         hashRequestId
     }
 ```
 
 ## change withdrawal status of a request
 
-POST /payment/get-user-payments/:status/:id
+PATCH /admin/payment/get-user-payments/:status/:id
 
 ```
     status = pending | declined | completed
 
 ```
+## change is blocked status of a user
+
+PATCH /admin/change-user-blocked-status/isBlocked=:isBlocked/:id
+
+```
+    isBlocked: true | false
+
+```
+## get user by id
+
+GET /admin/user/:id
+
+```
+    id: user's id
+
+```
+## get user's
+
+GET /admin/users
+## get user's according to blocked status
+
+GET /users-according-to-blocked-status/isBlocked=:isBlocked
+```
+    isBlocked: true | false
+```
+
