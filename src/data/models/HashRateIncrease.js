@@ -24,6 +24,10 @@ const schema = new mongoose.Schema({
     user: {
         type: Object,
         required: true
+    },
+    amount: {
+        type: String,
+        required: true
     }
 }, { timestamps: true })
 module.exports = mongoose.model('UserPayments', schema);
