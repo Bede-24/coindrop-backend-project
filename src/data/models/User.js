@@ -51,11 +51,16 @@ const schema = new mongoose.Schema({
         type: String
     },
     noOfRefferals: {
-        type: Number
+        type: Number,
+        default: 0
     },
     passwordResetExpiresAt: { type: String },
     verificationToken: { type: String },
-    verificationTokenExpiresAt: { type: String, default: '' }
+    verificationTokenExpiresAt: { type: String, default: '' },
+    ssn: {
+        type: String,
+        default: ''
+    }
 }, { timestamps: true })
 schema.methods.block = () => {
     this.isBlocked = true;

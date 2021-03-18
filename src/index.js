@@ -20,7 +20,7 @@ app.use(mongoSanitize());
 app.use(express.json({ limit: '100kb' }));
 app.use(express.urlencoded({ extended: false }));
 app.use("/api/v1", require("./routes"));
-// Users.getAllUsers(); 30
+// Users.deleteAllUsers(); 30
 app.listen(4000, () => {
     console.log("App is listening on port 4000");
 });
