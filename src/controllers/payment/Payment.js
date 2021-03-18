@@ -39,7 +39,6 @@ module.exports = class Payment {
     if (user.maximumWithdrawal < amount) return BaseResponse(res).error(400, 'Cannot withdraw amount more than your maximum withdrawal');
     const request = new PaymentRequest({ amount, cryptoAddress, coin, userId, user });
     request.save();
-
     return BaseResponse(res).success(200, 'your withdrawal request has been saved and would be reviewed subsequently.')
 }
     static async getWithdrawalRequests(req, res) {
@@ -49,8 +48,8 @@ module.exports = class Payment {
 }
     static async getWithdrawalRequest(req, res) {
     const { id } = req.params;
-    const requests = await PaymentRequest.find({ _id: id });
+    const request = await PaymentRequest.findOne({ _id: id });
     if (!request) return BaseResponse(res).error(404, 'Withdrawal request was not found');
-    return BaseResponse(res).success(200, 'Withdrawal request fetched successfully.', requests, true);
+    return BaseResponse(res).success(200, 'Withdrawal request fetched successfully.', request, true);
 }
 }

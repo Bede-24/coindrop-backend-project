@@ -26,7 +26,7 @@ const schema = new mongoose.Schema({
     },
     status: {
         type: String,
-        default: 'Pending'
+        default: 'pending'
     }
 }, { timestamps: true })
 module.exports = mongoose.model('PaymentsRequest', schema);
