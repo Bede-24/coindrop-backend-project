@@ -1,12 +1,10 @@
-var mongoose = require('mongoose')
-var mongoDb = 'mongodb://localhost/airdrop'
+var mongoose = require('mongoose');
+var mongoDb = 'mongodb+srv://godofjs:$Kingheadthe8th@cluster0.yyvia.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 mongoose.connect(mongoDb, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
     useCreateIndex: true
-});
-mongoose.connection.on("error", console.error.bind(console, "connection error:"));
-mongoose.connection.once("open", function () {
-    console.log("database connection established successfully");
+}).then(() => {
+    console.log("database connected successfully")
 });

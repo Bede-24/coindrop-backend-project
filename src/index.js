@@ -23,4 +23,4 @@ app.use(express.json({ limit: '100kb' }));
 app.use(express.urlencoded({ extended: false }));
 app.use("/api/v1", require("./routes"));
 // Users.deleteAllUsers(); 30
-app.listen(process.env.PORT || 5000);
+app.listen(process.env.PORT || 4000);
