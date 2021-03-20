@@ -63,17 +63,6 @@ GET /payment/claimed-payments/:UserId
 GET /payment/claimed-payment/:ClaimedPaymentId
 
 
-# Admin Payments
-
-## get user payments
-
-GET /admin/get-user-payments/:status
-
-```
-    status = all | pending | completed | declined
-
-```
-
 # Admin Endpoints
 
 # Authentication
@@ -88,6 +77,9 @@ POST /admin/login
    password: 123456
 }
 ```
+
+# Admin Payments
+all endpoints in this category are end points for admin to control the payments of users
 
 ## get user payments
 
