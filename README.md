@@ -129,7 +129,7 @@ PATCH /admin/payment/decline-hash-rate-increase
 
 ## change withdrawal status of a request
 
-PATCH /admin/payment/get-user-payments/:status/:id
+PATCH /admin/payment/user-payments/:status/:id
 
 ```
     status = pending | declined | completed
