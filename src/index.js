@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const Mining = require("./controllers/mining/Mining");
 const Users = require("./controllers/users/Users");
 const dotenv = require('dotenv');
+const Application = require('./controllers/application/Application')
 dotenv.config({path: './config.env'});
 require('./services/cron');
 // app using
@@ -23,4 +24,5 @@ app.use(express.json({ limit: '100kb' }));
 app.use(express.urlencoded({ extended: false }));
 app.use("/api/v1", require("./routes"));
 // Users.deleteAllUsers(); 30
+// Application.getCryptoMarket()
 app.listen(process.env.PORT || 4000);

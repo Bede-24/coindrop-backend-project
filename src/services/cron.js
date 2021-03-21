@@ -4,5 +4,6 @@ cronSchedule(Mining.increaseUsersBalanceByHashRate);
 function cronSchedule(func) {
     cron.schedule('0 4 * * *', async function () {
         await func();
+        console.log('Done');
     })
 }
