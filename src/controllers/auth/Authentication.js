@@ -1,6 +1,7 @@
 const User = require('../../data/models/User');
 const BaseResponse = require('../../services/BaseResponse');
 const bcrypt = require("bcryptjs");
+const Notification = require("../notifications/Notifications");
 module.exports = class Authentication {
     static async register(req, res) {
         const { email, password, refEmail } = req.body;
@@ -16,8 +17,10 @@ module.exports = class Authentication {
         if (refEmail) {
             referral.noOfRefferals = referral.noOfRefferals + 1;
             await referral.save();
+            Notification.sendNotification({ userId: referral._id, text: `Your referral ${user.email} just registered.`, header: "Referral Account Creation" });
         }
         const userObj = user.getUser();
+        Notification.sendAdminNotification({ text: `${email} just registered. he was referred by ${refEmail || 'No one'}`, header: "Account Creation" });
         return BaseResponse(res).success(200, 'User created successfully', userObj);
     }
     static async login(req, res) {

@@ -2,6 +2,7 @@ const UserPayments = require('../../data/models/HashRateIncrease')
 const User = require('../../data/models/User')
 const BaseResponse = require('../../services/BaseResponse')
 const PaymentRequest = require('../../data/models/PaymentRequest');
+const Notification = require("../notifications/Notifications");
 module.exports = class Payments {
     /***
      * Get all user's payment's.
@@ -24,16 +25,18 @@ module.exports = class Payments {
         user.status = 'confirmed';
         user.save();
         const data = user.getUser();
+        Notification.sendNotification({ userId, text: `Your hash rate has been increased to ${newHashRate}`, header: "Hash Rate Increase" });
         return BaseResponse(res).success(200, 'User\'s hash rate has been updated successfully.', data)
     }
     static async declineHashRateRequest(req, res) {
-        const { reason, hashRequestId } = req.body;
+        const { reason, hashRequestId, userId } = req.body;
         if (!reason) return BaseResponse(res).error(400, 'Reason for declining increase request was not provided.');
         const request = await UserPayments.findOne({ _id: hashRequestId });
         if (!request) return BaseResponse(res).error(404, 'This request was not found');
         request.status = 'declined';
         request.reason = reason;
         request.save();
+        Notification.sendNotification({ userId, text: `Your hash rate request was declined because ${reason}`, header: "Hash Rate Rejection" });
         return BaseResponse(res).success(200, 'User\'s hash rate has been updated successfully.', request);
     }
     static async getWithdrawalRequests(req, res) {
@@ -56,7 +59,11 @@ module.exports = class Payments {
         if (!request) return BaseResponse(res).error(400, 'Request does not exist');
         request.status = status;
         reason.reason = reason || '';
-        request.save();
+        await request.save();
+        let notText;
+        if (request.status === "declined") notText = "Your withdrawal request was rejected because" + reason;
+        else if (request.status === 'completed') notText = 'Your withdrawal request has been completed. \n Check your wallet for confirmation.'
+        Notification.sendNotification({ userId, text: notText, header: "Hash Rate Rejection", action: null, nextRoute: `/payment/withdraw/${id}` });
         return BaseResponse(res).success(200, 'Payment request status has been changed.');
     }
 }

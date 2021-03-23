@@ -17,11 +17,9 @@ module.exports = class Application {
         }
         const api = axios.create(config)
         const request = await api.get('/v1/cryptocurrency/listings/latest').catch(e => {
-
             return BaseResponse(res).error(500, e.response.message, true);
         });
         const data = request.data.data.slice(0, 10);
-        console.log(data);
-        return BaseResponse(res).success(200, "CryptoMarket fetched successfully", data, true);
+        return BaseResponse(res).success(200, "Crypto Market fetched successfully", data, true);
     }
 }

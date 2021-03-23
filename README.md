@@ -115,7 +115,8 @@ PATCH /admin/payment/decline-hash-rate-increase
 ```
     {
         reason: "We could not verify the funds you sent.",
-        hashRequestId
+        hashRequestId,
+        userId
     }
 ```
 
