@@ -9,22 +9,18 @@ const schema = new mongoose.Schema({
     },
     text: {
         type: String,
-        required: "You need to provide notification's text",
-        default: 0
+        required: "You need to provide notification's text"
     },
     header: {
         type: String,
-        required: "You need to provide notification's header",
-        default: 2
+        required: "You need to provide notification's header"
     },
     userId: {
         type: String,
         required: "you have to provide user's ID",
-        default: false
     },
     nextRoute: {
-        type: String,
-        unique: true,
+        type: String
     }
 }, { timestamps: true })
 module.exports = mongoose.model('Notifications', schema);

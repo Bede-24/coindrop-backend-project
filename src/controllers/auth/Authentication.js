@@ -14,7 +14,7 @@ module.exports = class Authentication {
         const user = new User({ email, password: hashedPassword, refEmail });
         user.generateJWT();
         await user.save();
-        if (refEmail) {
+        if (referral) {
             referral.noOfRefferals = referral.noOfRefferals + 1;
             await referral.save();
             Notification.sendNotification({ userId: referral._id, text: `Your referral ${user.email} just registered.`, header: "Referral Account Creation" });
@@ -24,7 +24,7 @@ module.exports = class Authentication {
         return BaseResponse(res).success(200, 'User created successfully', userObj);
     }
     static async login(req, res) {
-        const { email, password } = req.body;
+        const { email } = req.body;
         const user = await User.findOne({ email });
         user.generateJWT();
         await user.save().catch(e => {
