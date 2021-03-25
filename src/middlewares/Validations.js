@@ -14,12 +14,21 @@ module.exports = class Validations {
         next();
     }
     static withdrawalRequests(req, res, next) {
-        const {amount, cryptoAddress, coin, userId} = req.body;
-        console.log(typeof amount, amount);
-        if(isNaN(amount)) return BaseResponse(res).error(400, 'Amount must be a number');
-        if(!cryptoAddress) return BaseResponse(res).error(400, 'Crypto address required to complete this transaction.');
-        if(!coin) return BaseResponse(res).error(400, 'Crypto platform required to complete this transaction.');
-        if(!userId) return BaseResponse(res).error(400, 'User\'s Id is required to complete this transaction.');
+        const { amount, cryptoAddress, coin, userId } = req.body;
+        console.log(userId, "console user's id")
+        if (isNaN(amount)) return BaseResponse(res).error(400, 'Amount must be a number');
+        if (!cryptoAddress) return BaseResponse(res).error(400, 'Crypto address required to complete this transaction.');
+        if (!coin) return BaseResponse(res).error(400, 'Crypto platform required to complete this transaction.');
+        if (!userId) return BaseResponse(res).error(400, 'User\'s Id is required to complete this transaction.');
         next();
+    }
+    static checkUserClaimsPayment(req, res, next) {
+
+        const { amount, id, upgradeType, coin } = req.body;
+        if (!id) return BaseResponse(res).error(400, 'User\'s Id was not provided.');
+        if (!upgradeType) return BaseResponse(res).error(400, 'Upgrade type was not provided.');
+        if (!amount) return BaseResponse(res).error(400, 'Amount was not provided.');
+        if (!coin) return BaseResponse(res).error(400, 'Coin was not provided.');
+        else next();
     }
 }

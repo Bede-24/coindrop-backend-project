@@ -4,11 +4,13 @@ const AuthenticationMiddlewares = require('../middlewares/AuthenticationMiddlewa
 const Validations = require('../middlewares/Validations');
 router.post('/user-claims-payment',
     AuthenticationMiddlewares.checkJWT,
+    Validations.checkUserClaimsPayment,
     Payment.userClaimsPayment);
 router.post('/make-withdrawal-request',
     AuthenticationMiddlewares.checkJWT,
     Validations.withdrawalRequests,
     Payment.makeWithdrawalRequest);
+
 router.get('/get-withdrawal-requests/:id',
     AuthenticationMiddlewares.checkJWT,
     AuthenticationMiddlewares.checkIfIdMatchesJWTId,

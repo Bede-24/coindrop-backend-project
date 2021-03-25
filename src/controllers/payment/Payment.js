@@ -7,14 +7,10 @@ module.exports = class Payment {
     static async userClaimsPayment(req, res) {
         const { amount, id, upgradeType, coin } = req.body;
         const user = await User.findOne({ _id: id });
-        if (!upgradeType) return BaseResponse(res).error(400, 'Upgrade type was not provided.');
-        if (!amount) return BaseResponse(res).error(400, 'Amount was not provided.');
-        if (!coin) return BaseResponse(res).error(400, 'Coin was not provided.');
         if (!user) return BaseResponse(res).error(404, 'A user with this ID was not found.', true, { login: true });
         const data = await user.getUser();
-        const payment = new UserPayment({upgradeType, coin, user: data, amount: `${amount}` });
+        const payment = new UserPayment({upgradeType, coin, user: data, amount: `${amount}`, userId: id });
         await payment.save().catch(err => {
-            console.log(err)
             return BaseResponse(res).error(404, 'Something went wrong try it again.');
         }).finally(() => {
             // email goes here. 

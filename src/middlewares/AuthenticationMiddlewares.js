@@ -38,6 +38,7 @@ module.exports = class AuthenticationMiddlewares {
     static async checkAdminJWT(req, res, next) {
         if (!req.get("Authorization") || !req.get("Authorization").startsWith("Bearer ")) return BaseResponse(res).error(400, 'JWT was not provided.');
         const token = req.get("Authorization").split(" ")[1];
+        console.log(token);
         const tokenObj = Tokeniser.decodeToken(token);
         if (!tokenObj) return BaseResponse(res).error(400, 'Invalid JWT.', false, { login: true });
         const user = await Admin.findOne({ _id: tokenObj._id });
