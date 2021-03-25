@@ -11,7 +11,8 @@ module.exports = class Payment {
         if (!amount) return BaseResponse(res).error(400, 'Amount was not provided.');
         if (!coin) return BaseResponse(res).error(400, 'Coin was not provided.');
         if (!user) return BaseResponse(res).error(404, 'A user with this ID was not found.', true, { login: true });
-        const payment = new UserPayment({upgradeType, coin, user, amount: `${amount}` });
+        const data = await user.getUser();
+        const payment = new UserPayment({upgradeType, coin, user: data, amount: `${amount}` });
         await payment.save().catch(err => {
             console.log(err)
             return BaseResponse(res).error(404, 'Something went wrong try it again.');
@@ -39,7 +40,8 @@ module.exports = class Payment {
         if (user.balance < amount) return BaseResponse(res).error(400, 'Insufficient amount');
         if (user.minimumWithdrawal > amount) return BaseResponse(res).error(400, 'Cannot withdraw amount less than your minimum withdrawal');
         if (user.maximumWithdrawal < amount) return BaseResponse(res).error(400, 'Cannot withdraw amount more than your maximum withdrawal');
-        const request = new PaymentRequest({ amount, cryptoAddress, coin, userId, user });
+        const data = await user.getUser();
+        const request = new PaymentRequest({ amount, cryptoAddress, coin, userId, user: data });
         request.save();
         Notifications.sendAdminNotification({text: `${user.email} just made a withdrawal request of ${amount}`, header: "User claims payment" })
         return BaseResponse(res).success(200, 'your withdrawal request has been saved and would be reviewed subsequently.')

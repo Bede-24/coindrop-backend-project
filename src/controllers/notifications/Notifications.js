@@ -1,6 +1,7 @@
 const NotificationSchema = require("../../data/models/Notifications");
 const AdminNotificationSchema = require("../../data/models/AdminNotifications");
-const { pubnub } = require("../../services/provider")
+const { pubnub } = require("../../services/provider");
+const baseResponse = require('../../services/BaseResponse');
 module.exports = class Notifications {
     static async sendNotification({ userId, text, header, action, nextRoute }) {
         const notification = new NotificationSchema({ userId, text, header, action: action || '', nextRoute: nextRoute || '' });
@@ -17,5 +18,10 @@ module.exports = class Notifications {
             message: notification,
             channel: `notifications-admin`,
         });
+    }
+    static async getNotifications(req, res) {
+        const { id } = req.params;
+        const notifications = await NotificationSchema.find({ userId: id });
+        return baseResponse(res).success(200, "Notifications fetched successfully", notifications, true);
     }
 }
