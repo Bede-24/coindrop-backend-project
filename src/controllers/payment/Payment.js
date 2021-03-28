@@ -13,7 +13,7 @@ module.exports = class Payment {
         await payment.save().catch(err => {
             return BaseResponse(res).error(404, 'Something went wrong try it again.');
         }).finally(() => {
-            // email goes here. 
+            // email goes here.
             Notifications.sendAdminNotification({  text: `${user.email} just claimed that a transaction with the amount ${amount} was made.`, header: "User claims payment" })
             return BaseResponse(res).success(200, 'Your payment would be verified shortly.')
         })

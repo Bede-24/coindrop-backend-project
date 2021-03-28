@@ -136,6 +136,31 @@ PATCH /admin/change-user-blocked-status/isBlocked=:isBlocked/:id
     isBlocked: true | false
 
 ```
+## change forceful ugrade status of a user
+
+PATCH /admin/change-user-forceful-upgrade-status
+
+```
+    { 
+        id: 'Users id', 
+        status: true | false, 
+        reason: "Upgrade so we can do this", 
+        upgradeTo: "premium"
+     } 
+
+```
+## change forceful ugrade status of a user
+
+PATCH /admin/change-pay-task-status
+
+```
+    { 
+        id: 'Users id', 
+        status: true | false, 
+        reason: "pay task levy because america needs it"
+     } 
+
+```
 ## get user by id
 
 GET /admin/user/:id

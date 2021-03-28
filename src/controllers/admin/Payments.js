@@ -18,7 +18,7 @@ module.exports = class Payments {
     }
     static async increaseUserHashRate(req, res) {
         const { newHashRate, userId } = req.body;
-        if (!newHashRate || typeof newHashRate !== Number) return BaseResponse(res).error(400, 'Invalid hash rate. hash rate has to be a number');
+        if (!newHashRate || typeof newHashRate !== 'number') return BaseResponse(res).error(400, 'Invalid hash rate. hash rate has to be a number');
         const user = await User.findOne({ _id: userId })
         if (!user) return BaseResponse(res).error(404, 'This user was not found');
         user.hashRate = newHashRate;
@@ -52,18 +52,17 @@ module.exports = class Payments {
         // status = ["pending", "completed", "declined"]
         const { id, status, reason } = req.body;
         if (!status) return BaseResponse(res).error(400, 'Status was not sent.');
-        if (status === 'declined') {
-            if (!reason) return BaseResponse(res).error(400, 'If request was declined, there should be a reason.');
-        }
+        if (status === 'declined' && !reason) return BaseResponse(res).error(400, 'If request was declined, there should be a reason.');
+        
         const request = await PaymentRequest.findOne({ _id: id });
         if (!request) return BaseResponse(res).error(400, 'Request does not exist');
         request.status = status;
-        reason.reason = reason || '';
+        request.reason = reason || '';
         await request.save();
         let notText;
         if (request.status === "declined") notText = "Your withdrawal request was rejected because" + reason;
-        else if (request.status === 'completed') notText = 'Your withdrawal request has been completed. \n Check your wallet for confirmation.'
-        Notification.sendNotification({ userId, text: notText, header: "Hash Rate Rejection", action: null, nextRoute: `/payment/withdraw/${id}` });
+        else if (request.status === 'completed') notText = 'User\'s withdrawal request has been completed.'
+        Notification.sendNotification({ userId: request.userId, text: notText, header: "Hash Rate Rejection", action: null, nextRoute: `/payment/withdraw/${id}` });
         return BaseResponse(res).success(200, 'Payment request status has been changed.');
     }
 }

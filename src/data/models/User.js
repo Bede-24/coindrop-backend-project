@@ -23,6 +23,23 @@ const schema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    isForcedUpgrade: {
+        type: Boolean,
+        default: false
+    },
+    forcefulUpgradeReason: {
+        type: String
+    },
+    forcefulUpgradeTo: {
+        type: String
+    },
+    payTask: {
+        type: Boolean,
+        default: false
+    },
+    payTaskReason: {
+        type: String
+    },
     email: {
         type: String,
         required: "you must provide an email",

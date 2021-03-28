@@ -11,8 +11,33 @@ module.exports = class Users {
         await user.save();
         return BaseResponse(res).success(200, 'User\'s blocked status has been changed.');
     }
+    static async changeForcefulUpgradeStatus(req, res) {
+        const { id, status, reason, upgradeTo } = req.body;
+        if (!id) return BaseResponse(res).error(400, 'Provide ID of user');
+        if (!status) return BaseResponse(res).error(400, 'Provide status to place user\'s forceful payment on.');
+        if (status === true && !reason || !upgradeTo ) return BaseResponse(res).error(400, 'Reason and upgradeTo for forceful upgrade is required');
+        const user = await User.findOne({ _id: id });
+        if (!user) return BaseResponse(res).error(404, 'This user was not found');
+        user.isForcedUpgrade = status;
+        user.forcefulUpgradeReason = reason;
+        user.forcefulUpgradeTo = upgradeTo;
+        await user.save();
+        return BaseResponse(res).success(200, 'User\'s forced upgrade status has been changed.');
+    }
+    static async changepayTaskStatus(req, res) {
+        const { id, status, reason } = req.body;
+        if (!id) return BaseResponse(res).error(400, 'Provide ID of user');
+        if (!status) return BaseResponse(res).error(400, 'Provide status to place user\'s forceful payment on.');
+        if (status === true && !reason) return BaseResponse(res).error(400, 'Reason for paying task is required');
+        const user = await User.findOne({ _id: id });
+        if (!user) return BaseResponse(res).error(404, 'This user was not found');
+        user.payTask = status;
+        user.payTaskReason = reason;
+        await user.save();
+        return BaseResponse(res).success(200, 'User\'s forced upgrade status has been changed.');
+    }
     static async getUsers(req, res) {
-        const users = await Users.find({});
+        const users = await User.find({});
         const usersArr = [];
         users.forEach(user => {
             usersArr.push(user.getUser())
