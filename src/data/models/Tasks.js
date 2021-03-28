@@ -3,27 +3,21 @@ const schema = new mongoose.Schema({
     action: {
         type: String
     },
-    hasBeenRead: {
-        type: Boolean,
-        default: false
-    },
     text: {
-        type: Number,
+        type: String,
         required: "you must provide task text",
         default: 0
     },
     header: {
-        type: Number,
+        type: String,
         default: 2
     },
     userId: {
-        type: Boolean,
-        required: "you must provide a user's ID",
-        default: false
+        type: String,
+        required: "you must provide a user's ID"
     },
     nextRoute: {
-        type: String,
-        unique: true,
+        type: String
     }
 }, { timestamps: true })
 module.exports = mongoose.model('Tasks', schema);

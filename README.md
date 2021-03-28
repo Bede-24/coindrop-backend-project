@@ -41,9 +41,10 @@ POST /payment/user-claims-payment
 ```
 { id: user's id,
 upgradeType: free | average | standard | retirement | enterprise,
-coin: BTC | ETH | DODGE 
+coin: BTC | ETH | DODGE
 }
 ```
+
 ## Request withdrawal
 
 POST /payment/make-withdrawal-request
@@ -55,13 +56,14 @@ POST /payment/make-withdrawal-request
 ## Get withdrawal requests
 
 GET /payment/get-withdrawal-requests/:userId
+
 ## Get Claimed payments
 
 GET /payment/claimed-payments/:UserId
+
 ## Get Claimed payment
 
 GET /payment/claimed-payment/:ClaimedPaymentId
-
 
 # Admin Endpoints
 
@@ -79,6 +81,7 @@ POST /admin/login
 ```
 
 # Admin Payments
+
 all endpoints in this category are end points for admin to control the payments of users
 
 ## get user payments
@@ -128,6 +131,7 @@ PATCH /admin/payment/user-payments/:status/:id
     status = pending | declined | completed
 
 ```
+
 ## change is blocked status of a user
 
 PATCH /admin/change-user-blocked-status/isBlocked=:isBlocked/:id
@@ -136,31 +140,9 @@ PATCH /admin/change-user-blocked-status/isBlocked=:isBlocked/:id
     isBlocked: true | false
 
 ```
-## change forceful ugrade status of a user
 
-PATCH /admin/change-user-forceful-upgrade-status
 
-```
-    { 
-        id: 'Users id', 
-        status: true | false, 
-        reason: "Upgrade so we can do this", 
-        upgradeTo: "premium"
-     } 
 
-```
-## change forceful ugrade status of a user
-
-PATCH /admin/change-pay-task-status
-
-```
-    { 
-        id: 'Users id', 
-        status: true | false, 
-        reason: "pay task levy because america needs it"
-     } 
-
-```
 ## get user by id
 
 GET /admin/user/:id
@@ -169,13 +151,56 @@ GET /admin/user/:id
     id: user's id
 
 ```
+
 ## get user's
 
 GET /admin/users
+
 ## get user's according to blocked status
 
 GET /users-according-to-blocked-status/isBlocked=:isBlocked
+
 ```
     isBlocked: true | false
 ```
 
+## Assign task to user
+
+GET /admin//create-user-task
+
+```
+    {
+        userId,
+        header: "Account Upgrade",
+        text: "Upgrade due to blah blah blah",
+        action: "an action to be taken from my vuex store. We would handle this later. it's not compulsory",
+        nextRoute: "A link to take the user to example payment's page. we would handle later. Not compulsory."
+    }
+```
+
+## change pay tax status of a user
+
+PATCH /admin/change-pay-tax-status
+reason is compulsory only if status = true;
+
+```
+    {
+        id: 'Users id',
+        status: true | false,
+        reason: "pay task levy because america needs it" 
+     }
+
+```
+## change forceful ugrade status of a user
+
+PATCH /admin/change-user-forceful-upgrade-status
+
+```
+    {
+        id: 'Users id',
+        status: true | false,
+        reason: "Upgrade so we can do this",
+        upgradeTo: "premium"
+     }
+
+```
