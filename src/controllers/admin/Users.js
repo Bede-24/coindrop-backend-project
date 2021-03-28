@@ -46,7 +46,7 @@ module.exports = class Users {
     }
     static async getUserById(req, res) {
         const { id } = req.params;
-        const user = await User.find({ _id: id });
+        const user = await User.findOne({ _id: id });
         if (!user) return BaseResponse(res).error(404, 'This user was not found');
         const data = user.getUser();
         return BaseResponse(res).success(200, 'User fetched successfully', data, true);
