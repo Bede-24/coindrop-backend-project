@@ -107,7 +107,7 @@ GET /admin/payment/withdrawal-requests/:status
 PATCH /admin/payment/increase-hash-rate
 
 ```
-    { newHashRate: Number, userId }
+    { newHashRate: Number, userId , hashRequestId: optional}
 
 ```
 

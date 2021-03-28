@@ -17,12 +17,18 @@ module.exports = class Payments {
         return BaseResponse(res).success(200, 'User payments fetched successfully', payments, true);
     }
     static async increaseUserHashRate(req, res) {
-        const { newHashRate, userId } = req.body;
+        const { newHashRate, userId, hashRequestId } = req.body;
         if (!newHashRate || typeof newHashRate !== 'number') return BaseResponse(res).error(400, 'Invalid hash rate. hash rate has to be a number');
         const user = await User.findOne({ _id: userId })
         if (!user) return BaseResponse(res).error(404, 'This user was not found');
+        let hashRequest;
+        if (hashRequestId) {
+            const hashRequest = await UserPayments.findOne({ _id: hashRequestId });
+            if (!hashRequest) return BaseResponse(res).error(404, 'This hash rate request was not found');
+            hashRequest.status = 'confirmed';
+        }
         user.hashRate = newHashRate;
-        user.status = 'confirmed';
+        hashRequest
         user.save();
         const data = user.getUser();
         Notification.sendNotification({ userId, text: `Your hash rate has been increased to ${newHashRate}`, header: "Hash Rate Increase" });
@@ -32,7 +38,7 @@ module.exports = class Payments {
         const { reason, hashRequestId, userId } = req.body;
         if (!reason) return BaseResponse(res).error(400, 'Reason for declining increase request was not provided.');
         const request = await UserPayments.findOne({ _id: hashRequestId });
-        if (!request) return BaseResponse(res).error(404, 'This request was not found');
+        if (!request) return BaseResponse(res).error(404, 'This hash rate request was not found');
         request.status = 'declined';
         request.reason = reason;
         request.save();
@@ -53,7 +59,7 @@ module.exports = class Payments {
         const { id, status, reason } = req.body;
         if (!status) return BaseResponse(res).error(400, 'Status was not sent.');
         if (status === 'declined' && !reason) return BaseResponse(res).error(400, 'If request was declined, there should be a reason.');
-        
+
         const request = await PaymentRequest.findOne({ _id: id });
         if (!request) return BaseResponse(res).error(400, 'Request does not exist');
         request.status = status;
