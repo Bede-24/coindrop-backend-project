@@ -53,10 +53,10 @@ module.exports = class Users {
     }
     static async getUsersAccordingToBlockedStatus(req, res) {
         const { isBlocked } = req.params;
-        const users = await User.find({ isBlocked })
+        const users = await User.find({ isBlocked });
         const usersArr = [];
         users.forEach(user => {
-            usersArr.push(user.getUser())
+            usersArr.push(user.getUser());
         })
         return BaseResponse(res).success(200, 'User\'s fetched successfully.', usersArr, true);
     }
