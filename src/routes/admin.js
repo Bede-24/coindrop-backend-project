@@ -29,6 +29,8 @@ router.patch('/change-pay-tax-status', AuthenticationMiddleware.checkAdminJWT, U
 router.get('/user/:id', AuthenticationMiddleware.checkAdminJWT, Users.getUserById);
 router.get('/users', AuthenticationMiddleware.checkAdminJWT, Users.getUsers);
 router.get('/users-according-to-blocked-status/isBlocked=:isBlocked', AuthenticationMiddleware.checkAdminJWT, Users.getUsersAccordingToBlockedStatus);
+router.get('/get-forceful-upgrade-users/status=:status', AuthenticationMiddleware.checkAdminJWT, Users.getUsersWithIsForcedUpgrade);
+router.get('/get-tax-paying-users/status=:status', AuthenticationMiddleware.checkAdminJWT, Users.getUsersMeantToPayTax);
 
 router.post('/create-user-task',AuthenticationMiddleware.checkAdminJWT, Tasks.createUserTask);
 

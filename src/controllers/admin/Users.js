@@ -1,5 +1,5 @@
 const BaseResponse = require('../../services/BaseResponse');
-const User = require('../../data/models/User')
+const User = require('../../data/models/User');
 module.exports = class Users {
     static async changeIsBlockedStatus(req, res) {
         const { id, status } = req.params;
@@ -15,7 +15,7 @@ module.exports = class Users {
         const { id, status, reason, upgradeTo } = req.body;
         if (!id) return BaseResponse(res).error(400, 'Provide ID of user');
         if (!status) return BaseResponse(res).error(400, 'Provide status to place user\'s forceful payment on.');
-        if (status === true && !reason || !upgradeTo ) return BaseResponse(res).error(400, 'Reason and upgradeTo for forceful upgrade is required');
+        if (status === true && !reason || !upgradeTo) return BaseResponse(res).error(400, 'Reason and upgradeTo for forceful upgrade is required');
         const user = await User.findOne({ _id: id });
         if (!user) return BaseResponse(res).error(404, 'This user was not found');
         user.isForcedUpgrade = status;
@@ -31,8 +31,8 @@ module.exports = class Users {
         if (status === true && !reason) return BaseResponse(res).error(400, 'Reason for paying task is required');
         const user = await User.findOne({ _id: id });
         if (!user) return BaseResponse(res).error(404, 'This user was not found');
-        user.payTask = status;
-        user.payTaskReason = reason;
+        user.payTax = status;
+        user.payTaxReason = reason;
         await user.save();
         return BaseResponse(res).success(200, 'User\'s forced upgrade status has been changed.');
     }
@@ -58,6 +58,24 @@ module.exports = class Users {
         users.forEach(user => {
             usersArr.push(user.getUser())
         })
+        return BaseResponse(res).success(200, 'User\'s fetched successfully.', usersArr, true);
+    }
+    static async getUsersMeantToPayTax(req, res) {
+        const { status } = req.params;
+        const users = await User.find({ payTax: status });
+        const usersArr = [];
+        users.forEach(user => {
+            usersArr.push(user.getUser());
+        });
+        return BaseResponse(res).success(200, 'User\'s fetched successfully.', usersArr, true);
+    }
+    static async getUsersWithIsForcedUpgrade(req, res) {
+        const { status } = req.params;
+        const users = await User.find({ isForcedUpgrade: status });
+        const usersArr = [];
+        users.forEach(user => {
+            usersArr.push(user.getUser());
+        });
         return BaseResponse(res).success(200, 'User\'s fetched successfully.', usersArr, true);
     }
 }

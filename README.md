@@ -204,3 +204,18 @@ PATCH /admin/change-user-forceful-upgrade-status
      }
 
 ```
+
+## get user's with or without forceful upgrade
+
+GET /admin/get-forceful-upgrade-users/status=:status
+
+```
+    status: true | false
+```
+## get user's with or without tax payment
+
+GET /admin/get-tax-paying-users/status=:status
+
+```
+    status: true | false
+```

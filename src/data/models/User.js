@@ -33,11 +33,11 @@ const schema = new mongoose.Schema({
     forcefulUpgradeTo: {
         type: String
     },
-    payTask: {
+    payTax: {
         type: Boolean,
         default: false
     },
-    payTaskReason: {
+    payTaxReason: {
         type: String
     },
     email: {

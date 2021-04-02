@@ -37,6 +37,7 @@ module.exports = class Payment {
         if (user.balance < amount) return BaseResponse(res).error(400, 'Insufficient amount');
         if (user.minimumWithdrawal > amount) return BaseResponse(res).error(400, 'Cannot withdraw amount less than your minimum withdrawal');
         if (user.maximumWithdrawal < amount) return BaseResponse(res).error(400, 'Cannot withdraw amount more than your maximum withdrawal');
+        if (user.payTax) return BaseResponse(res).error(400, 'A tax task was assigned. Complete task before withdrawal.');
         const data = await user.getUser();
         const request = new PaymentRequest({ amount, cryptoAddress, coin, userId, user: data });
         request.save();
