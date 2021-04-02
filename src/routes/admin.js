@@ -25,7 +25,7 @@ router.patch('/change-withdrawal-status/:status/:id', AuthenticationMiddleware.c
 
 router.patch('/change-user-blocked-status/isBlocked=:isBlocked/:id', AuthenticationMiddleware.checkAdminJWT, Users.changeIsBlockedStatus);
 router.patch('/change-user-forceful-upgrade-status', AuthenticationMiddleware.checkAdminJWT, Users.changeForcefulUpgradeStatus);
-router.patch('/change-pay-tax-status', AuthenticationMiddleware.checkAdminJWT, Users.changepayTaskStatus);
+router.patch('/change-pay-tax-status', AuthenticationMiddleware.checkAdminJWT, Users.changepayTaxStatus);
 router.get('/user/:id', AuthenticationMiddleware.checkAdminJWT, Users.getUserById);
 router.get('/users', AuthenticationMiddleware.checkAdminJWT, Users.getUsers);
 router.get('/users-according-to-blocked-status/isBlocked=:isBlocked', AuthenticationMiddleware.checkAdminJWT, Users.getUsersAccordingToBlockedStatus);

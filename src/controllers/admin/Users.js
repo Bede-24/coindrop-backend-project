@@ -24,7 +24,7 @@ module.exports = class Users {
         await user.save();
         return BaseResponse(res).success(200, 'User\'s forced upgrade status has been changed.');
     }
-    static async changepayTaskStatus(req, res) {
+    static async changepayTaxStatus(req, res) {
         const { id, status, reason } = req.body;
         if (!id) return BaseResponse(res).error(400, 'Provide ID of user');
         if (!status) return BaseResponse(res).error(400, 'Provide status to place user\'s forceful payment on.');
