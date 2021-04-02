@@ -19,8 +19,8 @@ module.exports = class Users {
         const user = await User.findOne({ _id: id });
         if (!user) return BaseResponse(res).error(404, 'This user was not found');
         user.isForcedUpgrade = status;
-        user.forcefulUpgradeReason = reason;
-        user.forcefulUpgradeTo = upgradeTo;
+        user.forcefulUpgradeReason = reason || '';
+        user.forcefulUpgradeTo = upgradeTo || '';
         await user.save();
         return BaseResponse(res).success(200, 'User\'s forced upgrade status has been changed.');
     }
@@ -32,7 +32,7 @@ module.exports = class Users {
         const user = await User.findOne({ _id: id });
         if (!user) return BaseResponse(res).error(404, 'This user was not found');
         user.payTax = status;
-        user.payTaxReason = reason;
+        user.payTaxReason = reason || '';
         await user.save();
         return BaseResponse(res).success(200, 'User\'s forced upgrade status has been changed.');
     }
