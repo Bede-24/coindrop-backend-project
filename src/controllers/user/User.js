@@ -7,6 +7,11 @@ module.exports = class User {
         const user = await UserSchema.findOne({ _id: id });
         if(!user) return BaseResponse(res).error(400, 'User was not found', false, { login: true });
         const data = user.getUser();
-        return BaseResponse(res).success(200, 'User fetched successfully', data, true);
+     
+       return BaseResponse(res).success(200, 'User fetched successfully', data, true);
+    }
+
+    static async getUserTax(req, res) {
+        
     }
 }

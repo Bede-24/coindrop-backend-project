@@ -11,7 +11,7 @@ module.exports = class Notifications {
             channel: `notifications-${userId}`,
         });
     }
-    static async sendAdminNotification({ userId, text, header, action, nextRoute }) {
+    static async sendAdminNotification({ text, header }) {
         const notification = new AdminNotificationSchema({ text, header });
         await notification.save();
         pubnub.publish({

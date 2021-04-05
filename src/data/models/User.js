@@ -11,6 +11,10 @@ const schema = new mongoose.Schema({
     JWT: {
         type: String
     },
+    currentPlan: {
+        type: String,
+        default: 'free'
+    },
     balance: {
         type: Number,
         default: 0
@@ -27,18 +31,12 @@ const schema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    forcefulUpgradeReason: {
-        type: String
-    },
     forcefulUpgradeTo: {
         type: String
     },
     payTax: {
         type: Boolean,
         default: false
-    },
-    payTaxReason: {
-        type: String
     },
     email: {
         type: String,
@@ -55,9 +53,6 @@ const schema = new mongoose.Schema({
     maximumWithdrawal: {
         type: Number,
         default: 0
-    },
-    cryptoAddress: {
-        type: String
     },
     password: {
         type: String,

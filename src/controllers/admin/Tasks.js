@@ -12,11 +12,13 @@ module.exports = class Tasks {
         if (!user) return BaseResponse(res).error(404, 'This user does not exist');
         const task = new TasksModel({ userId, header, text, action, nextRoute })
         await task.save();
+        this.sendTask(task, userId);
+        return BaseResponse(res).success(200, "User's task has been added successfully.");
+    }
+    static sendTask(task, userId) {
         pubnub.publish({
             message: task,
             channel: `task-${userId}`,
         });
-        return BaseResponse(res).success(200, "User's task has been added successfully.");
     }
-
 }
