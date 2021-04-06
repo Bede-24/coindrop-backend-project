@@ -10,7 +10,7 @@ module.exports = class Tasks {
         if (!text) return BaseResponse(res).error(400, 'text is required for proper presentation of data');
         const user = await User.findOne({ _id: userId });
         if (!user) return BaseResponse(res).error(404, 'This user does not exist');
-        const task = new TasksModel({ userId, header, text, action, nextRoute })
+        const task = new TasksModel({ userId, header, text, action, nextRoute });
         await task.save();
         this.sendTask(task, userId);
         return BaseResponse(res).success(200, "User's task has been added successfully.");
