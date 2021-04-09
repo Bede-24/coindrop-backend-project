@@ -20,6 +20,7 @@ module.exports = class AuthenticationMiddlewares {
         const { email, password } = req.body;
         const user = await User.findOne({ email });
         if (!user) return BaseResponse(res).error(404, 'This user does not exist in our database. try registering.')
+        if (user.isBlocked === true) return BaseResponse(res).error(401, 'Your account is unavailable. contact the admin for more assistance.');
         const passwordMatch = bcrypt.compareSync(password, user.password);
         if (!passwordMatch) return BaseResponse(res).error(404, 'This password does not match this user.')
         else {
@@ -33,12 +34,12 @@ module.exports = class AuthenticationMiddlewares {
         if (!tokenObj) return BaseResponse(res).error(400, 'Invalid JWT.', true, { login: true });
         const user = await User.findOne({ _id: tokenObj._id })
         if (!user) return BaseResponse(res).error(404, 'A user with this ID was not found.', true, { login: true });
+        if (user.isBlocked) return BaseResponse(res).error(401, 'Your account is unavailable. contact the admin for more assistance.', true, { login: true });
         next();
     }
     static async checkAdminJWT(req, res, next) {
         if (!req.get("Authorization") || !req.get("Authorization").startsWith("Bearer ")) return BaseResponse(res).error(400, 'JWT was not provided.');
         const token = req.get("Authorization").split(" ")[1];
-        console.log(token);
         const tokenObj = Tokeniser.decodeToken(token);
         if (!tokenObj) return BaseResponse(res).error(400, 'Invalid JWT.', false, { login: true });
         const user = await Admin.findOne({ _id: tokenObj._id });

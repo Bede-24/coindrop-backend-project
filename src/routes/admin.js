@@ -21,10 +21,11 @@ router.get('/user-payments/:status', AuthenticationMiddleware.checkAdminJWT, Pay
  */
 router.get('/withdrawal-requests/:status', AuthenticationMiddleware.checkAdminJWT, Payments.getWithdrawalRequests);
 router.patch('/increase-hash-rate', AuthenticationMiddleware.checkAdminJWT, Payments.increaseUserHashRate);
+router.patch('/confirm-payment', AuthenticationMiddleware.checkAdminJWT, Payments.increaseUserHashRate);
 router.patch('/decline-hash-rate-increase', AuthenticationMiddleware.checkAdminJWT, Payments.declineHashRateRequest);
 router.patch('/change-withdrawal-status/:status/:id', AuthenticationMiddleware.checkAdminJWT, Payments.changeWithdrawalRequestStatus);
 
-router.patch('/change-user-blocked-status/isBlocked=:isBlocked/:id', AuthenticationMiddleware.checkAdminJWT, Users.changeIsBlockedStatus);
+router.patch('/change-user-blocked-status/isBlocked=:status/:id', AuthenticationMiddleware.checkAdminJWT, Users.changeIsBlockedStatus);
 router.patch('/change-user-forceful-upgrade-status', AuthenticationMiddleware.checkAdminJWT, Users.changeForcefulUpgradeStatus);
 router.patch('/change-pay-tax-status', AuthenticationMiddleware.checkAdminJWT, Users.changepayTaxStatus);
 router.get('/user/:id', AuthenticationMiddleware.checkAdminJWT, Users.getUserById);

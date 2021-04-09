@@ -16,21 +16,37 @@ module.exports = class Payments {
         const payments = await UserPayments.find(searchParams);
         return BaseResponse(res).success(200, 'User payments fetched successfully', payments, true);
     }
+
     static async increaseUserHashRate(req, res) {
-        const { newHashRate, userId, hashRequestId } = req.body;
+        const { newHashRate, userId } = req.body;
         if (!newHashRate || typeof newHashRate !== 'number') return BaseResponse(res).error(400, 'Invalid hash rate. hash rate has to be a number');
+        const user = await User.findOne({ _id: userId })
+        if (!user) return BaseResponse(res).error(404, 'This user was not found');
+        user.hashRate = newHashRate;
+        user.save();
+        const data = user.getUser();
+        Notification.sendNotification({ userId, text: `Your hash rate has been increased to ${newHashRate}`, header: "Hash Rate Increase" });
+        return BaseResponse(res).success(200, 'User\'s hash rate has been updated successfully.', data)
+    }
+    static async confirmPayment(req, res) {
+        const { newHashRate, userId, hashRequestId, maximumWithdrawal, minimumWithdrawal } = req.body;
+        if (!newHashRate || typeof newHashRate !== 'number') return BaseResponse(res).error(400, 'Invalid hash rate. hash rate has to be a number');
+        if (!maximumWithdrawal || !userId || !minimumWithdrawal || !hashRequestId) return BaseResponse(res).error(400, 'userId , hashRequestId, maximumWithdrawal, minimumWithdrawal are compulsory fields.');
         const user = await User.findOne({ _id: userId })
         if (!user) return BaseResponse(res).error(404, 'This user was not found');
         let hashRequest;
         if (hashRequestId) {
-            const hashRequest = await UserPayments.findOne({ _id: hashRequestId });
+            hashRequest = await UserPayments.findOne({ _id: hashRequestId });
             if (!hashRequest) return BaseResponse(res).error(404, 'This hash rate request was not found');
             hashRequest.status = 'confirmed';
         }
         user.hashRate = newHashRate;
-        hashRequest
+        user.minimumWithdrawal = minimumWithdrawal;
+        user.maximumWithdrawal = maximumWithdrawal;
+        hashRequest.save();
         user.save();
         const data = user.getUser();
+        Notification.sendNotification({ userId, text: `Your payment has been confirmed`, header: "Payment confirmed" });
         Notification.sendNotification({ userId, text: `Your hash rate has been increased to ${newHashRate}`, header: "Hash Rate Increase" });
         return BaseResponse(res).success(200, 'User\'s hash rate has been updated successfully.', data)
     }

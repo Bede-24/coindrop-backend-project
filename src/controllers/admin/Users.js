@@ -5,6 +5,7 @@ const Tasks = require("./Tasks")
 module.exports = class Users {
     static async changeIsBlockedStatus(req, res) {
         const { id, status } = req.params;
+        console.log(id, status)
         if (!id) return BaseResponse(res).error(400, 'Provide ID of user');
         if (!status && status !== false) return BaseResponse(res).error(400, 'Provide status to place user on.');
         const user = await User.findOne({ _id: id })

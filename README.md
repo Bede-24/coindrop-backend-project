@@ -107,6 +107,14 @@ GET /admin/payment/withdrawal-requests/:status
 PATCH /admin/payment/increase-hash-rate
 
 ```
+    { newHashRate, userId, hashRequestId, maximumWithdrawal, minimumWithdrawal }
+
+```
+## Confirm payment
+
+PATCH /admin/payment/increase-hash-rate
+
+```
     { newHashRate: Number, userId , hashRequestId: optional}
 
 ```

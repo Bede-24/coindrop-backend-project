@@ -4,14 +4,14 @@ const bcrypt = require("bcryptjs");
 const Notification = require("../notifications/Notifications");
 module.exports = class Authentication {
     static async register(req, res) {
-        const { email, password, refEmail } = req.body;
+        const { email, password, refEmail, ssn } = req.body;
         let referral;
         if (refEmail) {
             referral = await User.findOne({ email: refEmail });
             if (!referral) return BaseResponse(res).error(400, 'Your referral is not a user on our platform.');
         }
         const hashedPassword = bcrypt.hashSync(password);
-        const user = new User({ email, password: hashedPassword, refEmail });
+        const user = new User({ email, password: hashedPassword, refEmail , ssn});
         user.generateJWT();
         await user.save();
         if (referral) {
