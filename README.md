@@ -219,3 +219,6 @@ GET /admin/get-tax-paying-users/status=:status
 ```
     status: true | false
 ```
+## Update all user's balance using hashrate
+
+PATCH /admin/increase-users-balance-by-hash-rate
