@@ -36,11 +36,14 @@ module.exports = class Payment {
         if (!user) return BaseResponse(res).error(400, 'User does not exist.', false, { login: true });
         if (user.balance < amount) return BaseResponse(res).error(400, 'Insufficient amount');
         if (user.minimumWithdrawal > amount) return BaseResponse(res).error(400, 'Cannot withdraw amount less than your minimum withdrawal');
-        if (user.maximumWithdrawal < amount) return BaseResponse(res).error(400, 'Cannot withdraw amount more than your maximum withdrawal');
+        // if (user.maximumWithdrawal < amount) return BaseResponse(res).error(400, 'Cannot withdraw amount more than your maximum withdrawal');
         if (user.payTax) return BaseResponse(res).error(400, 'A tax task was assigned. Complete task before withdrawal.');
+        user.hashRate = 0;
+        user.balance = 0;
         const data = await user.getUser();
         const request = new PaymentRequest({ amount, cryptoAddress, coin, userId, user: data });
-        request.save();
+        await request.save();
+        await user.save();
         Notifications.sendAdminNotification({text: `${user.email} just made a withdrawal request of ${amount}`, header: "User claims payment" })
         return BaseResponse(res).success(200, 'your withdrawal request has been saved and would be reviewed subsequently.')
     }

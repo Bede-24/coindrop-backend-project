@@ -29,9 +29,10 @@ module.exports = class Payments {
         return BaseResponse(res).success(200, 'User\'s hash rate has been updated successfully.', data)
     }
     static async confirmPayment(req, res) {
-        const { newHashRate, userId, hashRequestId, maximumWithdrawal, minimumWithdrawal } = req.body;
+        // maximumWithdrawal, 
+        const { newHashRate, userId, hashRequestId, minimumWithdrawal } = req.body;
         if (!newHashRate || typeof newHashRate !== 'number') return BaseResponse(res).error(400, 'Invalid hash rate. hash rate has to be a number');
-        if (!maximumWithdrawal || !userId || !minimumWithdrawal || !hashRequestId) return BaseResponse(res).error(400, 'userId , hashRequestId, maximumWithdrawal, minimumWithdrawal are compulsory fields.');
+        if (!userId || !minimumWithdrawal || !hashRequestId) return BaseResponse(res).error(400, 'userId , hashRequestId, minimumWithdrawal are compulsory fields.');
         const user = await User.findOne({ _id: userId })
         if (!user) return BaseResponse(res).error(404, 'This user was not found');
         let hashRequest;
@@ -42,7 +43,7 @@ module.exports = class Payments {
         }
         user.hashRate = newHashRate;
         user.minimumWithdrawal = minimumWithdrawal;
-        user.maximumWithdrawal = maximumWithdrawal;
+        // user.maximumWithdrawal = maximumWithdrawal;
         hashRequest.save();
         user.save();
         const data = user.getUser();
