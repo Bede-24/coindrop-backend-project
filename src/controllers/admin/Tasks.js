@@ -14,8 +14,8 @@ module.exports = class Tasks {
         await this.sendTask(task, userId);
         return BaseResponse(res).success(200, "User's task has been added successfully.");
     }
-    static sendTask(taskParam, userId) {
-        return new Promise((resolve) => {
+    static async sendTask(taskParam, userId) {
+        return new Promise(async (resolve) => {
             const task = new TasksModel(taskParam);
             await task.save();
             pubnub.publish({

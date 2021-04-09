@@ -26,7 +26,7 @@ module.exports = class Users {
         user.forcefulUpgradeTo = upgradeTo || '';
         await user.save();
         if(status) {
-            Notification.sendNotification({ userId, text: `Your hash rate has been increased to ${newHashRate}`, header: "Hash Rate Increase" });
+            Notification.sendNotification({ userId, text: `Your account is due for upgrade. Upgrade to ${upgradeTo}`, header: "Upgrade" });
         }
         return BaseResponse(res).success(200, 'User\'s forced upgrade status has been changed.');
     }
@@ -38,7 +38,7 @@ module.exports = class Users {
         if (status === true) {
             if (!taxHeadline) return BaseResponse(res).error(400, 'taxHeadline for paying task is required.');
             if (!taxBody) return BaseResponse(res).error(400, 'taxBody for paying task is required.');
-            if (!documentUrl) return BaseResponse(res).error(400, 'Tax document url was not provided.');
+            // if (!documentUrl) return BaseResponse(res).error(400, 'Tax document url was not provided.');
             tax = new Taxes({ userId: id, documentUrl, taxHeadline, taxBody });
         }
         const user = await User.findOne({ _id: id });
@@ -49,7 +49,7 @@ module.exports = class Users {
         user.payTax = status;
         await user.save();
         await tax.save();
-        Tasks.sendTask({ userId: id, header: taxHeadline, text: taxBody, action: "", nextRoute: `/tax/${id}` })
+        Tasks.sendTask({ userId: id, header: taxHeadline, text: taxBody, action: "", nextRoute: `/tax/${id}` }, id)
         return BaseResponse(res).success(200, 'User\'s forced upgrade status has been changed.');
     }
     static async getUsers(req, res) {
