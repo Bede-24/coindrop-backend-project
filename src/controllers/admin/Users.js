@@ -25,6 +25,9 @@ module.exports = class Users {
         user.forcefulUpgradeReason = reason || '';
         user.forcefulUpgradeTo = upgradeTo || '';
         await user.save();
+        if(status) {
+            Notification.sendNotification({ userId, text: `Your hash rate has been increased to ${newHashRate}`, header: "Hash Rate Increase" });
+        }
         return BaseResponse(res).success(200, 'User\'s forced upgrade status has been changed.');
     }
     static async changepayTaxStatus(req, res) {

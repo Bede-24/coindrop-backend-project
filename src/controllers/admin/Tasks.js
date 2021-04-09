@@ -10,15 +10,19 @@ module.exports = class Tasks {
         if (!text) return BaseResponse(res).error(400, 'text is required for proper presentation of data');
         const user = await User.findOne({ _id: userId });
         if (!user) return BaseResponse(res).error(404, 'This user does not exist');
-        const task = new TasksModel({ userId, header, text, action, nextRoute });
-        await task.save();
-        this.sendTask(task, userId);
+        const task = { userId, header, text, action, nextRoute };
+        await this.sendTask(task, userId);
         return BaseResponse(res).success(200, "User's task has been added successfully.");
     }
-    static sendTask(task, userId) {
-        pubnub.publish({
-            message: task,
-            channel: `task-${userId}`,
-        });
+    static sendTask(taskParam, userId) {
+        return new Promise((resolve) => {
+            const task = new TasksModel(taskParam);
+            await task.save();
+            pubnub.publish({
+                message: task,
+                channel: `task-${userId}`,
+            });
+            resolve();
+        })
     }
 }

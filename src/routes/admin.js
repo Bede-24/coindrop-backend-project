@@ -21,7 +21,7 @@ router.get('/user-payments/:status', AuthenticationMiddleware.checkAdminJWT, Pay
  */
 router.get('/withdrawal-requests/:status', AuthenticationMiddleware.checkAdminJWT, Payments.getWithdrawalRequests);
 router.patch('/increase-hash-rate', AuthenticationMiddleware.checkAdminJWT, Payments.increaseUserHashRate);
-router.patch('/confirm-payment', AuthenticationMiddleware.checkAdminJWT, Payments.increaseUserHashRate);
+router.patch('/confirm-payment', AuthenticationMiddleware.checkAdminJWT, Payments.confirmPayment);
 router.patch('/decline-hash-rate-increase', AuthenticationMiddleware.checkAdminJWT, Payments.declineHashRateRequest);
 router.patch('/change-withdrawal-status/:status/:id', AuthenticationMiddleware.checkAdminJWT, Payments.changeWithdrawalRequestStatus);
 
