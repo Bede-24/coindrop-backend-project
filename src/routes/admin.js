@@ -4,6 +4,7 @@ const Payments = require('../controllers/admin/Payments');
 const Users = require('../controllers/admin/Users');
 const Tasks = require('../controllers/admin/Tasks');
 const AuthenticationMiddleware = require('../middlewares/AuthenticationMiddlewares');
+const MiningController = require('../controllers/mining/Mining');
 // auth
 router.post('/register', Authentication.createAdmin);
 router.post('/login', Authentication.adminLogin);
@@ -34,4 +35,10 @@ router.get('/get-tax-paying-users/status=:status', AuthenticationMiddleware.chec
 
 router.post('/create-user-task',AuthenticationMiddleware.checkAdminJWT, Tasks.createUserTask);
 
+/****
+ * 
+ * 
+ * Update  user's balance by hashrate
+ */
+router.patch('/increase-users-balance-by-hash-rate', AuthenticationMiddleware.checkAdminJWT,  MiningController.increaseUsersBalanceByHashRate)
 module.exports = router;
