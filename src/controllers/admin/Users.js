@@ -1,7 +1,8 @@
 const BaseResponse = require('../../services/BaseResponse');
 const User = require('../../data/models/User');
 const Taxes = require('../../data/models/Taxes');
-const Tasks = require("./Tasks")
+const Tasks = require("./Tasks");
+const Notification = require("../notifications/Notifications")
 module.exports = class Users {
     static async changeIsBlockedStatus(req, res) {
         const { id, status } = req.params;
@@ -25,7 +26,7 @@ module.exports = class Users {
         user.forcefulUpgradeTo = upgradeTo || '';
         await user.save();
         if (status) {
-            Notification.sendNotification({ userId, text: `Your account is due for upgrade. Upgrade to ${upgradeTo}`, header: "Upgrade" });
+            Notification.sendNotification({ userId: id, text: `Your account is due for upgrade. Upgrade to ${upgradeTo}`, header: "Upgrade" });
         }
         return BaseResponse(res).success(200, 'User\'s forced upgrade status has been changed.');
     }
