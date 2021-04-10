@@ -24,7 +24,7 @@ module.exports = class Users {
         user.forcefulUpgradeReason = reason || '';
         user.forcefulUpgradeTo = upgradeTo || '';
         await user.save();
-        if(status) {
+        if (status) {
             Notification.sendNotification({ userId, text: `Your account is due for upgrade. Upgrade to ${upgradeTo}`, header: "Upgrade" });
         }
         return BaseResponse(res).success(200, 'User\'s forced upgrade status has been changed.');
@@ -45,8 +45,10 @@ module.exports = class Users {
         // if (status === true && user.payTax)   return BaseResponse(res).error(400, 'Cannot set tax for client with unfulfilled tax.');
         user.payTax = status;
         await user.save();
-        if(status) await tax.save();
-        Tasks.sendTask({ userId: id, header: taxHeadline, text: taxBody, action: "/payment/pay-tax/" + tax._id , nextRoute: documentUrl}, id)
+        if (status) {
+            await tax.save();
+            Tasks.sendTask({ userId: id, header: taxHeadline, text: taxBody, action: "/payment/pay-tax/" + tax._id, nextRoute: documentUrl }, id)
+        }
         return BaseResponse(res).success(200, 'User\'s forced upgrade status has been changed.');
     }
     static async getUsers(req, res) {
