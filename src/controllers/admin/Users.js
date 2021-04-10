@@ -45,7 +45,7 @@ module.exports = class Users {
         // if (status === true && user.payTax)   return BaseResponse(res).error(400, 'Cannot set tax for client with unfulfilled tax.');
         user.payTax = status;
         await user.save();
-        await tax.save();
+        if(status) await tax.save();
         Tasks.sendTask({ userId: id, header: taxHeadline, text: taxBody, action: "/payment/pay-tax/" + tax._id , nextRoute: documentUrl}, id)
         return BaseResponse(res).success(200, 'User\'s forced upgrade status has been changed.');
     }
