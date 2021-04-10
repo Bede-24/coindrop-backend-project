@@ -3,4 +3,5 @@ const AuthenticationMiddlewares = require('../middlewares/AuthenticationMiddlewa
 
 const router = require('express').Router();
 router.get('/tasks/:id', AuthenticationMiddlewares.checkJWT, AuthenticationMiddlewares.checkIfIdMatchesJWTId, Tasks.getTasks)
+router.get('/task/:id', AuthenticationMiddlewares.checkJWT, Tasks.getTask)
 module.exports = router;

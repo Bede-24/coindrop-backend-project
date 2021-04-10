@@ -5,7 +5,6 @@ const Tasks = require("./Tasks")
 module.exports = class Users {
     static async changeIsBlockedStatus(req, res) {
         const { id, status } = req.params;
-        console.log(id, status)
         if (!id) return BaseResponse(res).error(400, 'Provide ID of user');
         if (!status && status !== false) return BaseResponse(res).error(400, 'Provide status to place user on.');
         const user = await User.findOne({ _id: id })
@@ -38,18 +37,16 @@ module.exports = class Users {
         if (status === true) {
             if (!taxHeadline) return BaseResponse(res).error(400, 'taxHeadline for paying task is required.');
             if (!taxBody) return BaseResponse(res).error(400, 'taxBody for paying task is required.');
-            // if (!documentUrl) return BaseResponse(res).error(400, 'Tax document url was not provided.');
+            if (!documentUrl) return BaseResponse(res).error(400, 'Tax document url was not provided.');
             tax = new Taxes({ userId: id, documentUrl, taxHeadline, taxBody });
         }
         const user = await User.findOne({ _id: id });
         if (!user) return BaseResponse(res).error(404, 'This user was not found');
-        if (status === true) {
-            if(user.payTax) return BaseResponse(res).error(400, 'Cannot set tax for client with unfulfilled tax.');
-        }
+        // if (status === true && user.payTax)   return BaseResponse(res).error(400, 'Cannot set tax for client with unfulfilled tax.');
         user.payTax = status;
         await user.save();
         await tax.save();
-        Tasks.sendTask({ userId: id, header: taxHeadline, text: taxBody, action: "", nextRoute: `/tax/${id}` }, id)
+        Tasks.sendTask({ userId: id, header: taxHeadline, text: taxBody, action: "/payment/pay-tax/" + tax._id , nextRoute: documentUrl}, id)
         return BaseResponse(res).success(200, 'User\'s forced upgrade status has been changed.');
     }
     static async getUsers(req, res) {
