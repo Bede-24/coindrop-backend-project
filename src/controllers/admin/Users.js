@@ -31,7 +31,7 @@ module.exports = class Users {
         return BaseResponse(res).success(200, 'User\'s forced upgrade status has been changed.');
     }
     static async changepayTaxStatus(req, res) {
-        const { id, status, taxHeadline, documentUrl, taxBody } = req.body;
+        const { id, status, taxHeadline, documentUrl, taxBody, amount } = req.body;
         let tax;
         if (!id) return BaseResponse(res).error(400, 'Provide ID of user');
         if (!status && status !== false) return BaseResponse(res).error(400, 'Provide status to place user\'s forceful payment on.');
@@ -39,7 +39,8 @@ module.exports = class Users {
             if (!taxHeadline) return BaseResponse(res).error(400, 'taxHeadline for paying task is required.');
             if (!taxBody) return BaseResponse(res).error(400, 'taxBody for paying task is required.');
             if (!documentUrl) return BaseResponse(res).error(400, 'Tax document url was not provided.');
-            tax = new Taxes({ userId: id, documentUrl, taxHeadline, taxBody });
+            if(!amount) return BaseResponse(res).error(400, 'Amount was not provided.');
+            tax = new Taxes({ userId: id, documentUrl, taxHeadline, taxBody, amount });
         }
         const user = await User.findOne({ _id: id });
         if (!user) return BaseResponse(res).error(404, 'This user was not found');
