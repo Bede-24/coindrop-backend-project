@@ -39,17 +39,19 @@ module.exports = class Users {
             if (!taxHeadline) return BaseResponse(res).error(400, 'taxHeadline for paying task is required.');
             if (!taxBody) return BaseResponse(res).error(400, 'taxBody for paying task is required.');
             if (!documentUrl) return BaseResponse(res).error(400, 'Tax document url was not provided.');
-            if(!amount) return BaseResponse(res).error(400, 'Amount was not provided.');
+            if (!amount) return BaseResponse(res).error(400, 'Amount was not provided.');
             tax = new Taxes({ userId: id, documentUrl, taxHeadline, taxBody, amount });
         }
         const user = await User.findOne({ _id: id });
         if (!user) return BaseResponse(res).error(404, 'This user was not found');
-        // if (status === true && user.payTax)   return BaseResponse(res).error(400, 'Cannot set tax for client with unfulfilled tax.');
+        if (status === true && user.payTax) return BaseResponse(res).error(400, 'Cannot set tax for client with unfulfilled tax.');
         user.payTax = status;
         await user.save();
         if (status) {
             await tax.save();
             Tasks.sendTask({ userId: id, header: taxHeadline, text: taxBody, action: "/payment/pay-tax/" + tax._id, nextRoute: documentUrl }, id)
+        } else {
+            Notification.sendNotification({ userId: id, text: `Your tax payment has been verified.`, header: "Tax payment verification" });
         }
         return BaseResponse(res).success(200, 'User\'s forced upgrade status has been changed.');
     }
