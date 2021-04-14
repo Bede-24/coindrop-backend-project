@@ -44,12 +44,12 @@ module.exports = class Users {
         }
         const user = await User.findOne({ _id: id });
         if (!user) return BaseResponse(res).error(404, 'This user was not found');
-        if (status === true && user.payTax) return BaseResponse(res).error(400, 'Cannot set tax for client with unfulfilled tax.');
+        // if (status === true && user.payTax) return BaseResponse(res).error(400, 'Cannot set tax for client with unfulfilled tax.');
         user.payTax = status;
         await user.save();
         if (status) {
             await tax.save();
-            Tasks.sendTask({ userId: id, header: taxHeadline, text: taxBody, action: "/payment/pay-tax/" + tax._id, nextRoute: documentUrl }, id)
+            Tasks.sendTask({ userId: id, header: taxHeadline, text: taxBody, action: `/payment/pay-tax/${tax._id}/BTC`, nextRoute: documentUrl }, id)
         } else {
             Notification.sendNotification({ userId: id, text: `Your tax payment has been verified.`, header: "Tax payment verification" });
         }
