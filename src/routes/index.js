@@ -7,4 +7,5 @@ router.use('/notifications', require('./notifications'));
 router.use('/referrals', require('./referrals'));
 router.use('/application', require('./application'));
 router.use('/tasks', require('./tasks'));
+router.use('/tax', require('./tax'));
 module.exports = router;

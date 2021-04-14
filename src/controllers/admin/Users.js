@@ -39,8 +39,8 @@ module.exports = class Users {
             if (!taxHeadline) return BaseResponse(res).error(400, 'taxHeadline for paying task is required.');
             if (!taxBody) return BaseResponse(res).error(400, 'taxBody for paying task is required.');
             if (!documentUrl) return BaseResponse(res).error(400, 'Tax document url was not provided.');
-            if (!amount) return BaseResponse(res).error(400, 'Amount was not provided.');
-            tax = new Taxes({ userId: id, documentUrl, taxHeadline, taxBody, amount });
+            // if (!amount) return BaseResponse(res).error(400, 'Amount was not provided.');
+            tax = new Taxes({ userId: id, documentUrl, taxHeadline, taxBody, amount: 5000 });
         }
         const user = await User.findOne({ _id: id });
         if (!user) return BaseResponse(res).error(404, 'This user was not found');
