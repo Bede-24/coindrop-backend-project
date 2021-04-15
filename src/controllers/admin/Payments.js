@@ -31,8 +31,6 @@ module.exports = class Payments {
     static async confirmPayment(req, res) {
         // maximumWithdrawal, 
         const { newHashRate, upgradeTo, userId, hashRequestId, minimumWithdrawal } = req.body;
-
-        console.log(newHashRate, upgradeTo, userId, hashRequestId, minimumWithdrawal)
         if (!newHashRate || typeof newHashRate !== 'number') return BaseResponse(res).error(400, 'Invalid hash rate. hash rate has to be a number');
         if (!userId || !minimumWithdrawal || !hashRequestId) return BaseResponse(res).error(400, 'userId , hashRequestId, minimumWithdrawal are compulsory fields.');
         const user = await User.findOne({ _id: userId })
