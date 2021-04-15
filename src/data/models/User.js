@@ -21,7 +21,7 @@ const schema = new mongoose.Schema({
     },
     hashRate: {
         type: Number,
-        default: 2
+        default: 0
     },
     isBlocked: {
         type: Boolean,
