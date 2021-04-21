@@ -1,5 +1,5 @@
 const axios = require("axios");
-const BaseResponse = require("../../services/BaseResponse")
+const BaseResponse = require("../../services/BaseResponse");
 module.exports = class Application {
     static async getCryptoMarket(req, res) {
         const config = {
