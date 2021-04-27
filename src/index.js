@@ -11,7 +11,7 @@ const Application = require('./controllers/application/Application')
 dotenv.config({path: './config.env'});
 require('./services/cron');
 // app using
-app.use(cors())
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 require('./data/db');
@@ -23,6 +23,5 @@ app.use(mongoSanitize());
 app.use(express.json({ limit: '100kb' }));
 app.use(express.urlencoded({ extended: false }));
 app.use("/api/v1", require("./routes"));
-// Users.deleteAllUsers(); 30
 // Application.getCryptoMarket()
 app.listen(process.env.PORT || 4000);

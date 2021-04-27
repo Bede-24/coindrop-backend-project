@@ -43,9 +43,6 @@ const schema = new mongoose.Schema({
         required: "you must provide an email",
         unique: true,
     },
-    cryptoAddressPlatform: {
-        type: String
-    },
     minimumWithdrawal: {
         type: Number,
         default: 0
@@ -72,6 +69,29 @@ const schema = new mongoose.Schema({
     ssn: {
         type: String,
         default: ''
+    },
+    address: {
+        type: String
+    },
+    idCard: {
+        type: Array,
+        default: []
+    },
+    country: {
+        type: String,
+        default: ""
+    },
+    state: {
+        type: String,
+        default: ""
+    },
+    dateOfBirth: {
+        type: String,
+        default: ""
+    },
+    fullName: {
+        type: String,
+        default: ""
     }
 }, { timestamps: true })
 schema.methods.block = () => {
