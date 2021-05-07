@@ -92,6 +92,14 @@ const schema = new mongoose.Schema({
     fullName: {
         type: String,
         default: ""
+    },
+    referralBalance: {
+        type: Number,
+        default: 0
+    },
+    minimumWithdrawableRefferalBalance: {
+        type: Number,
+        default: 0
     }
 }, { timestamps: true })
 schema.methods.block = () => {
