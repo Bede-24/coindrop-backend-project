@@ -8,8 +8,8 @@ module.exports = class Payment {
         const { amount, id, upgradeType, coin } = req.body;
         const user = await User.findOne({ _id: id });
         if (!user) return BaseResponse(res).error(404, 'A user with this ID was not found.', true, { login: true });
-        if (user.hashRate !== 0 && !user.isForcedUpgrade) return BaseResponse(res).error(401, 'You need to complete your plan duration and withdraw balance before you can deposit again. ');
-        if (user.balance !== 0 && !user.isForcedUpgrade || user.hashRate !== 0) return BaseResponse(res).error(401, 'You need to withdraw your balance before you can deposit again');
+        // if (user.hashRate !== 0 && !user.isForcedUpgrade) return BaseResponse(res).error(401, 'You need to complete your plan duration and withdraw balance before you can deposit again. ');
+        // if (user.balance !== 0 && !user.isForcedUpgrade || user.hashRate !== 0) return BaseResponse(res).error(401, 'You need to withdraw your balance before you can deposit again');
         const data = await user.getUser();
         const payment = new UserPayment({ upgradeType, coin, user: data, amount: `${amount}`, userId: id });
         await payment.save().catch(err => {
