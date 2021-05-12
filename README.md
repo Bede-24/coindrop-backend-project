@@ -230,3 +230,6 @@ GET /admin/get-tax-paying-users/status=:status
 ## Update all user's balance using hashrate
 
 PATCH /admin/increase-users-balance-by-hash-rate
+
+### GET admin notifications
+GET /notifications/notifications/admin

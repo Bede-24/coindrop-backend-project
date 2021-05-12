@@ -24,4 +24,9 @@ module.exports = class Notifications {
         const notifications = await NotificationSchema.find({ userId: id });
         return baseResponse(res).success(200, "Notifications fetched successfully", notifications, true);
     }
+    static async getAdminNotifications(req, res) {
+        const { id } = req.params;
+        const notifications = await AdminNotificationSchema.find({});
+        return baseResponse(res).success(200, "Notifications fetched successfully", notifications, true);
+    }
 }
