@@ -45,8 +45,8 @@ module.exports = class Payments {
         user.minimumWithdrawal = minimumWithdrawal;
         user.currentPlan = upgradeTo;
         // user.maximumWithdrawal = maximumWithdrawal;
-        hashRequest.save();
-        user.save();
+        await hashRequest.save();
+        await user.save();
         const data = user.getUser();
         Notification.sendNotification({ userId, text: `Your payment has been confirmed`, header: "Payment confirmed" });
         Notification.sendNotification({ userId, text: `Your hash rate has been increased to ${newHashRate}`, header: "Hash Rate Increase" });
