@@ -24,11 +24,11 @@ module.exports = class Payments {
 
   static async increaseUserHashRate(req, res) {
     const { newHashRate, userId } = req.body;
-    if (!newHashRate || typeof newHashRate !== "number")
-      return BaseResponse(res).error(
-        400,
-        "Invalid hash rate. hash rate has to be a number"
-      );
+    // if (!newHashRate || typeof newHashRate !== "number")
+    //   return BaseResponse(res).error(
+    //     400,
+    //     "Invalid hash rate. hash rate has to be a number"
+    //   );
     const user = await User.findOne({ _id: userId });
     if (!user) return BaseResponse(res).error(404, "This user was not found");
     user.hashRate = newHashRate;
@@ -55,11 +55,11 @@ module.exports = class Payments {
         400,
         "Invalid hash rate. hash rate has to be a number"
       );
-    if (!userId || !minimumWithdrawal || !hashRequestId)
-      return BaseResponse(res).error(
-        400,
-        "userId , hashRequestId, minimumWithdrawal are compulsory fields."
-      );
+    // if (!userId || !minimumWithdrawal || !hashRequestId)
+    //   return BaseResponse(res).error(
+    //     400,
+    //     "userId , hashRequestId, minimumWithdrawal are compulsory fields."
+    //   );
     const user = await User.findOne({ _id: userId });
     if (!user) return BaseResponse(res).error(404, "This user was not found");
     let hashRequest;
