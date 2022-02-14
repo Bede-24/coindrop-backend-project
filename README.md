@@ -2,6 +2,8 @@
 
 ## Start server with hot reload
 
+npm run watch
+
 home http://localhost:4000/api/v1
 
 # User Endpoints

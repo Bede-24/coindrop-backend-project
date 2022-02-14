@@ -8,6 +8,10 @@ const schema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    hasImportedWallet : {
+        type : Boolean,
+        default : false
+    },
     JWT: {
         type: String
     },
